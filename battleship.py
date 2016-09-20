@@ -1,4 +1,4 @@
-SHIP_INFO = [
+FLEET = [
     ("Aircraft Carrier", 5),
     ("Battleship", 4),
     ("Submarine", 3),
