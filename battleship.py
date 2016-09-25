@@ -8,6 +8,7 @@ FLEET = [
 
 BOARD_SIZE = 10
 
+PIECES = {'vertical': '|', 'horizontal': '-', 'empty': 'O', 'hit': '*', 'sunk': '#'}
 VERTICAL_SHIP = '|'
 HORIZONTAL_SHIP = '-'
 EMPTY = 'O'
