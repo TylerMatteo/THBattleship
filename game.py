@@ -58,11 +58,7 @@ class Game:
 					break
 			else:
 				print("Miss!")
-				print(other_player.shots_taken, this_player.shots_taken)
-				pdb.set_trace()
-				#this_player.shots_taken[(column, row)] = PIECES['miss']
-				self.player1.shots_taken[(column, row)] = PIECES['miss']
-				print(other_player.shots_taken, this_player.shots_taken)
+				this_player.shots_taken[(column, row)] = PIECES['miss']
 				this_player, other_player = other_player, this_player
 
 			if all(ship.is_sunk == True for ship in other_player.fleet):
