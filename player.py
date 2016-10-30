@@ -7,12 +7,38 @@ import pdb
 
 class Player:
 
-	board = {()}
+	shots_taken = {}
 
 	def __init__(self, name):
 		self.name = name
-		self.board = {(col, row): "0" for row in range (1, BOARD_SIZE+1) for col in [chr(64+l) for l in range(1, BOARD_SIZE+1)]}
+		#self.board = {(col, row): "0" for row in [str(i) for i in range(1, BOARD_SIZE+1)] for col in [chr(64+l) for l in range(1, BOARD_SIZE+1)]}
 		self.fleet = [Ship(ship[0], ship[1]) for ship in FLEET]
+
+	def draw_board(self):
+		print("{}'s board: ".format(self.name))
+		board = [['0' for col in range(BOARD_SIZE)] for row in range(BOARD_SIZE)]
+
+		for ship in self.fleet:
+			for coord, piece in ship.coords.items():
+				x = int(coord[1]) - 1
+				y = ord(coord[0]) - 65
+				print("{} : {}".format(coord, piece))
+				print((x,y))
+				board[x][y] = piece
+
+
+		for coord, piece in self.shots_taken:
+			board[coord] = piece
+
+		print("   " + " ".join([chr(c) for c in range(ord('A'), ord('A') + BOARD_SIZE)]))
+		row_num = 1
+		for row in board:
+			print(str(row_num).rjust(2) + " " + (" ".join(row)))
+			row_num += 1
+
+		# for coord, piece in self.board.items():
+		# 	print("{} : {}".format(coord, piece))
+
 
 	def place_ships(self):
 		for ship in self.fleet:
@@ -41,7 +67,6 @@ class Player:
 						if (ord(column) - 65 + ship.size > BOARD_SIZE):
 							print("Your ship won't fit there horizontally, it's too long! Please try again.")
 							continue
-					
 					break
 
 				# Prompt user for ship row
@@ -68,9 +93,9 @@ class Player:
 					break
 
 			if orientation == "H":
-				ship.coords = {(chr(ord(column)+i), row): "0" for i in range(0, ship.size)}
-			elif orientation == "v":
-				ship.coords = {(column, str(int(row)+i)): "0" for i in range(0, ship.size)}
+				ship.coords = {(chr(ord(column)+i), row): PIECES['horizontal'] for i in range(0, ship.size)}
+			elif orientation == "V":
+				ship.coords = {(column, str(int(row)+i)): PIECES['vertical'] for i in range(0, ship.size)}
 
 
 

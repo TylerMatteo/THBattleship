@@ -5,6 +5,5 @@ class Ship:
 	def __init__(self, name, size):
 		self.name = name
 		self.size = size
+		self.is_sunk = False
 
-	def __str__(self):
-		return self.coords

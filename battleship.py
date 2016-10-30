@@ -1,14 +1,14 @@
 FLEET = [
-    ("Aircraft Carrier", 5),
-    ("Battleship", 4),
-    ("Submarine", 3),
-    ("Cruiser", 3),
-    ("Patrol Boat", 2)
+    ("Aircraft Carrier", 5)
+    #("Battleship", 4),
+    # ("Submarine", 3),
+    # ("Cruiser", 3),
+    # ("Patrol Boat", 2)
 ]
 
 BOARD_SIZE = 10
 
-PIECES = {'vertical': '|', 'horizontal': '-', 'empty': 'O', 'hit': '*', 'sunk': '#'}
+PIECES = {'vertical': '|', 'horizontal': '-', 'empty': 'O', 'hit': '*', 'sunk': '#', 'miss': '.'}
 VERTICAL_SHIP = '|'
 HORIZONTAL_SHIP = '-'
 EMPTY = 'O'
