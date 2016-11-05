@@ -8,6 +8,7 @@ from battleship import clear_screen
 class Game:
 
 	def __init__(self):
+		# Start the game by prompting for the players' names, drawing their empty boards, and then placing their ships
 		print("Welcome to Battleship! Enjoy your match.")
 		self.player1 = Player(input("Enter play 1's name: "))
 		self.player2 = Player(input("Enter play 2's name: "))
@@ -62,6 +63,7 @@ class Game:
 							ship.coords[(column, row)] = PIECES['sunk']
 							this_player.shots_taken[(column, row)] = PIECES['sunk']
 					break
+			# If the player misses, notify them and then prompt them to hand off before continuing
 			else:
 				clear_screen()
 				input("Sorry {}, you missed! Please press enter and then hand off to {}.".format(this_player.name, other_player.name))
@@ -73,6 +75,7 @@ class Game:
 				input("{}, it's your turn. Press enter to continue.".format(this_player.name))
 				clear_screen()
 
+			# If all of the opponent's ships are sunk, notify this player that they have won and end the game
 			if all(ship.is_sunk == True for ship in other_player.fleet):
 				clear_screen()
 				print("Congratulations {}, you sank all of {}'s ships! You win!".format(this_player.name, other_player.name))
