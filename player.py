@@ -4,44 +4,60 @@ from battleship import PIECES
 from battleship import BOARD_SIZE
 from ship import Ship
 import pdb
+from battleship import clear_screen
 
 class Player:
 
-	shots_taken = {}
-
 	def __init__(self, name):
+		self.shots_taken = {}
+		self.misses = {}
 		self.name = name
-		#self.board = {(col, row): "0" for row in [str(i) for i in range(1, BOARD_SIZE+1)] for col in [chr(64+l) for l in range(1, BOARD_SIZE+1)]}
 		self.fleet = [Ship(ship[0], ship[1]) for ship in FLEET]
 
-	def draw_board(self):
-		print("{}'s board: ".format(self.name))
+	def draw_opponent_board(self):
+		# Generate an empty board 
 		board = [['0' for col in range(BOARD_SIZE)] for row in range(BOARD_SIZE)]
 
-		for ship in self.fleet:
-			for coord, piece in ship.coords.items():
-				x = int(coord[1]) - 1
-				y = ord(coord[0]) - 65
-				print("{} : {}".format(coord, piece))
-				print((x,y))
-				board[x][y] = piece
+		# Fill in the coordinates operated by all shots the player has taken so far
+		for coord, piece in self.shots_taken.items():
+			x = int(coord[1]) - 1
+			y = ord(coord[0]) - 65
+			board[x][y] = piece
 
-
-		for coord, piece in self.shots_taken:
-			board[coord] = piece
-
+		# Print the fully populated board
 		print("   " + " ".join([chr(c) for c in range(ord('A'), ord('A') + BOARD_SIZE)]))
 		row_num = 1
 		for row in board:
 			print(str(row_num).rjust(2) + " " + (" ".join(row)))
 			row_num += 1
 
-		# for coord, piece in self.board.items():
-		# 	print("{} : {}".format(coord, piece))
+	def draw_board(self):
+		print("{}'s board: ".format(self.name))
 
+		# Generate an empty board 
+		board = [['0' for col in range(BOARD_SIZE)] for row in range(BOARD_SIZE)]
+
+		# Fill in coordinates occupied by ships
+		for ship in self.fleet:
+			for coord, piece in ship.coords.items():
+				x = int(coord[1]) - 1
+				y = ord(coord[0]) - 65
+				board[x][y] = piece
+
+		for coord, piece in self.misses.items():
+			x = int(coord[1]) - 1
+			y = ord(coord[0]) - 65
+			board[x][y] = piece
+
+		# Print the fully populated board
+		print("   " + " ".join([chr(c) for c in range(ord('A'), ord('A') + BOARD_SIZE)]))
+		row_num = 1
+		for row in board:
+			print(str(row_num).rjust(2) + " " + (" ".join(row)))
+			row_num += 1
 
 	def place_ships(self):
-		for ship in self.fleet:
+		for i, ship in enumerate(self.fleet):
 			while True:
 				print("{}, please place your {}. It is {} spaces long.".format(self.name, ship.name, ship.size))
 
@@ -83,6 +99,7 @@ class Player:
 							continue
 					break
 
+				# Check for overlap
 				overlap = False
 				for placed_ship in self.fleet:
 					if (column, row) in placed_ship.coords.keys():
@@ -96,6 +113,16 @@ class Player:
 				ship.coords = {(chr(ord(column)+i), row): PIECES['horizontal'] for i in range(0, ship.size)}
 			elif orientation == "V":
 				ship.coords = {(column, str(int(row)+i)): PIECES['vertical'] for i in range(0, ship.size)}
+
+			# After each ship is successfully placed, clear the screen and print the player's current board
+			clear_screen()
+			self.draw_board()
+
+			# If this is their last ship, prompt them to clear the screen before passing back to the other player.
+			if i+1 == len(self.fleet):
+				input("{}, you've placed all of your ships. Press enter before passing back to your opponent.".format(self.name))
+				clear_screen()
+
 
 
 
