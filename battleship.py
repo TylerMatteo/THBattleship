@@ -1,21 +1,33 @@
 FLEET = [
-    ("Aircraft Carrier", 5),
-    ("Battleship", 4),
-    ("Submarine", 3),
-    ("Cruiser", 3),
-    ("Patrol Boat", 2)
+    ("Aircraft Carrier", 2)
+    #("Battleship", 4)
+    # ("Submarine", 3),
+    # ("Cruiser", 3),
+    # ("Patrol Boat", 2)
 ]
 
 BOARD_SIZE = 10
 
-PIECES = {'vertical': '|', 'horizontal': '-', 'empty': 'O', 'hit': '*', 'sunk': '#', 'miss': '.'}
+PIECES = {
+    'vertical': '|',
+    'horizontal': '-',
+    'empty': 'O',
+    'hit': '*',
+    'sunk': '#',
+    'miss': '.'
+    }
+
 
 def clear_screen():
+
     print("\033c", end="")
 
 
 def print_board_heading():
-    print("   " + " ".join([chr(c) for c in range(ord('A'), ord('A') + BOARD_SIZE)]))
+    print("   " + " ".join([chr(c)
+                            for c in
+                            range(ord('A'), ord('A')
+                            + BOARD_SIZE)]))
 
 
 def print_board(board):
